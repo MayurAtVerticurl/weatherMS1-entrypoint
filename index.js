@@ -82,7 +82,7 @@ app.get("/getWeatherReport", async (req, res, next) => {
       gpt: ms2DATA.gpt,
     };
 
-    res.json(output);
+    res.json(ms1DATA);
     return;
   } catch (error) {
     next(error);
