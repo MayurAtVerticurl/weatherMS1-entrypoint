@@ -16,11 +16,9 @@ app.use(express.json()); //accepting only json data
 
 const ms1URL =
   process.env.ms1URL ||
-  `http://localhost:3001` ||
   `https://selfassuredmiserablerectangles--mayurrajan.repl.co/getWeatherData`;
 const ms2URL =
   process.env.ms2URL ||
-  `http://localhost:3002` ||
   `https://sociablewhirlwindmicrostation--mayurrajan.repl.co/getAiReport`;
 
 app.get("/", (req, res) => {
@@ -68,8 +66,8 @@ app.get("/getWeatherReport", async (req, res, next) => {
     });
 
     const ms2DATA = response2.data;
-    // console.log('ms1DATA', ms1DATA);
-    // console.log('ms2DATA', ms2DATA);
+    console.log("ms1DATA", ms1DATA);
+    console.log("ms2DATA", ms2DATA);
 
     const output = {
       temperature: ms1DATA.main.temp,
