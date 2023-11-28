@@ -50,6 +50,7 @@ app.get("/getWeatherReport", async (req, res, next) => {
       });
     }
 
+    console.log("going to make request");
     const response1 = await axios.get(ms1URL, {
       params: {
         lat: parseFloat(lat),
@@ -58,6 +59,8 @@ app.get("/getWeatherReport", async (req, res, next) => {
     });
 
     const ms1DATA = response1.data;
+    console.log("ms1DATA", ms1DATA);
+    console.log("data", ms1DATA.main.temp);
 
     const response2 = await axios.get(ms2URL, {
       params: {
@@ -66,7 +69,6 @@ app.get("/getWeatherReport", async (req, res, next) => {
     });
 
     const ms2DATA = response2.data;
-    console.log("ms1DATA", ms1DATA);
     console.log("ms2DATA", ms2DATA);
 
     const output = {
