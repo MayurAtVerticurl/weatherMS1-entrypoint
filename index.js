@@ -48,12 +48,9 @@ app.get("/getWeatherReport", async (req, res, next) => {
     const { lat, lon } = req.query;
 
     if (!lat || !lon) {
-      return res
-        .status(400)
-        .json({
-          error:
-            "Latitude and longitude are required in the request parameters.",
-        });
+      return res.status(400).json({
+        error: "Latitude and longitude are required in the request parameters.",
+      });
     }
 
     console.log("starting");
@@ -63,6 +60,17 @@ app.get("/getWeatherReport", async (req, res, next) => {
         lon: parseFloat(lon),
       },
     });
+
+    console.log("response from 1 got", response1.data);
+
+    // Check if the response is in the expected format
+    if (
+      !response1.data.main ||
+      !response1.data.weather ||
+      !response1.data.name
+    ) {
+      throw new Error("Invalid response format from ms1URL");
+    }
 
     const ms1DATA = response1.data;
 
