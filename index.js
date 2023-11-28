@@ -16,9 +16,11 @@ app.use(express.json()); //accepting only json data
 
 const ms1URL =
   process.env.ms1URL ||
+  `http://localhost:3001` ||
   `https://selfassuredmiserablerectangles--mayurrajan.repl.co/getWeatherData`;
 const ms2URL =
   process.env.ms2URL ||
+  `http://localhost:3002` ||
   `https://sociablewhirlwindmicrostation--mayurrajan.repl.co/getAiReport`;
 
 app.get("/", (req, res) => {
