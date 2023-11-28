@@ -3,6 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const axios = require("axios");
+const https = require("https");
 
 const PORT = process.env.PORT || 3000;
 
@@ -16,9 +17,11 @@ app.use(express.json()); //accepting only json data
 
 const ms1URL =
   process.env.ms1URL ||
-  `https://selfassuredmiserablerectangles--mayurrajan.repl.co/getWeatherData`;
+  `http://3.87.12.65:3001/getWeatherData` ||
+  `http://selfassuredmiserablerectangles--mayurrajan.repl.co/getWeatherData`;
 const ms2URL =
   process.env.ms2URL ||
+  `http://3.87.12.65:3002/getAiReport` ||
   `https://sociablewhirlwindmicrostation--mayurrajan.repl.co/getAiReport`;
 
 app.get("/", (req, res) => {
@@ -45,12 +48,15 @@ app.get("/getWeatherReport", async (req, res, next) => {
     const { lat, lon } = req.query;
 
     if (!lat || !lon) {
-      return res.status(400).json({
-        error: "Latitude and longitude are required in the request parameters.",
-      });
+      return res
+        .status(400)
+        .json({
+          error:
+            "Latitude and longitude are required in the request parameters.",
+        });
     }
 
-    console.log("going to make request");
+    console.log("starting");
     const response1 = await axios.get(ms1URL, {
       params: {
         lat: parseFloat(lat),
@@ -59,8 +65,6 @@ app.get("/getWeatherReport", async (req, res, next) => {
     });
 
     const ms1DATA = response1.data;
-    console.log("ms1DATA", ms1DATA);
-    console.log("data", ms1DATA.main.temp);
 
     const response2 = await axios.get(ms2URL, {
       params: {
@@ -69,6 +73,7 @@ app.get("/getWeatherReport", async (req, res, next) => {
     });
 
     const ms2DATA = response2.data;
+    console.log("ms1DATA", ms1DATA);
     console.log("ms2DATA", ms2DATA);
 
     const output = {
@@ -82,7 +87,7 @@ app.get("/getWeatherReport", async (req, res, next) => {
       gpt: ms2DATA.gpt,
     };
 
-    res.json(ms1DATA);
+    res.json(output);
     return;
   } catch (error) {
     next(error);
