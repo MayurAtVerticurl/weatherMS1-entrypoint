@@ -16,11 +16,11 @@ app.use(express.json()); //accepting only json data
 // app.use(express.urlencoded());  //accept url encoded data
 
 const ms1URL =
-  process.env.ms1URL ||
+  `${process.env.ms1URL}/getWeatherData` ||
   `http://3.87.12.65:3001/getWeatherData` ||
   `http://selfassuredmiserablerectangles--mayurrajan.repl.co/getWeatherData`;
 const ms2URL =
-  process.env.ms2URL ||
+  `${process.env.ms2URL}/getAiReport` ||
   `http://3.87.12.65:3002/getAiReport` ||
   `https://sociablewhirlwindmicrostation--mayurrajan.repl.co/getAiReport`;
 
@@ -53,7 +53,7 @@ app.get("/getWeatherReport", async (req, res, next) => {
       });
     }
 
-    console.log("starting");
+    // console.log("starting");
     const response1 = await axios.get(ms1URL, {
       params: {
         lat: parseFloat(lat),
@@ -61,7 +61,7 @@ app.get("/getWeatherReport", async (req, res, next) => {
       },
     });
 
-    console.log("response from 1 got", response1.data);
+    // console.log("response from 1 got", response1.data);
 
     // Check if the response is in the expected format
     if (
@@ -81,8 +81,8 @@ app.get("/getWeatherReport", async (req, res, next) => {
     });
 
     const ms2DATA = response2.data;
-    console.log("ms1DATA", ms1DATA);
-    console.log("ms2DATA", ms2DATA);
+    // console.log("ms1DATA", ms1DATA);
+    // console.log("ms2DATA", ms2DATA);
 
     const output = {
       temperature: ms1DATA.main.temp,
